@@ -239,4 +239,146 @@
 [34m2024-12-24 10:24:46[39m [32mResult: 0 rows affected in 495ms[39m
 [34m2024-12-24 10:30:12[39m Executing: LOAD DATA LOCAL INFILE 'C:/Users/icrui/Documents/DS-ML/pract_DE/Recursos/Venta.csv' INTO TABLE venta FIELDS TERMINATED BY ','  LINES TERMINATED BY '\n' IGNORE 1 LINES (ID_venta, fecha_venta, fecha_entrega_venta, ID_canal_vta, ID_cliente, ID_sucursal, ID_empleado, ID_producto, precio_venta, cantidad_venta)
 [34m2024-12-24 10:30:19[39m [32mResult: 46645 rows affected in 6.6s[39m
+[34m2024-12-24 10:53:33[39m Executing: SELECT * FROM venta LIMIT 100
+[34m2024-12-24 10:53:33[39m [32mResult: 100 rows retrieved in 7ms[39m
+[34m2024-12-24 10:54:14[39m Executing: SELECT * FROM venta LIMIT 100
+[34m2024-12-24 10:54:14[39m [32mResult: 100 rows retrieved in 3ms[39m
+[34m2024-12-24 18:09:19[39m Executing: USE depto_ventas
+[34m2024-12-24 18:09:19[39m [32mResult: 0 rows affected in 3ms[39m
+[34m2024-12-24 18:10:18[39m Executing: USE depto_ventas
+[34m2024-12-24 18:10:18[39m [32mResult: 0 rows affected in 2ms[39m
+[34m2024-12-24 18:10:29[39m Executing: USE depto_ventas
+[34m2024-12-24 18:10:29[39m [32mResult: 0 rows affected in 2ms[39m
+[34m2025-01-02 11:03:55[39m Executing: USE depto_ventas
+[34m2025-01-02 11:03:55[39m [32mResult: 0 rows affected in 62ms[39m
+[34m2025-01-02 11:04:19[39m Executing: SELECT * FROM venta LIMIT 100
+[34m2025-01-02 11:04:21[39m [32mResult: 100 rows retrieved in 2.5s[39m
+[34m2025-01-02 11:07:05[39m Executing: SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas FROM venta GROUP BY fecha_venta LIMIT 100
+[34m2025-01-02 11:07:05[39m [32mResult: 100 rows retrieved in 56ms[39m
+[34m2025-01-02 11:17:55[39m Executing: SELECT * FROM venta LIMIT 100
+[34m2025-01-02 11:17:55[39m [32mResult: 100 rows retrieved in 3ms[39m
+[34m2025-01-02 11:24:43[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, v2.Promedio_Vtas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:24:43[39m [32mResult: 100 rows retrieved in 55ms[39m
+[34m2025-01-02 11:32:16[39m Executing: SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas FROM venta GROUP BY fecha_venta LIMIT 100
+[34m2025-01-02 11:32:16[39m [32mResult: 100 rows retrieved in 25ms[39m
+[34m2025-01-02 11:32:20[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, v2.Promedio_Vtas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:32:20[39m [32mResult: 100 rows retrieved in 24ms[39m
+[34m2025-01-02 11:35:05[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, ROUND(v2.Promedio_Vtas) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:35:05[39m [32mResult: 100 rows retrieved in 177ms[39m
+[34m2025-01-02 11:35:12[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:35:12[39m [32mResult: 100 rows retrieved in 24ms[39m
+[34m2025-01-02 11:35:33[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:35:33[39m [32mResult: 100 rows retrieved in 26ms[39m
+[34m2025-01-02 11:43:13[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v LIMIT 100
+[34m2025-01-02 11:43:13[39m [32mResult: 100 rows retrieved in 103ms[39m
+[34m2025-01-02 11:43:22[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:43:22[39m [32mResult: 100 rows retrieved in 25ms[39m
+[34m2025-01-02 11:43:25[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v LIMIT 100
+[34m2025-01-02 11:43:25[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:43:58[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta LIMIT 100
+[34m2025-01-02 11:43:58[39m [32mResult: 100 rows retrieved in 36ms[39m
+[34m2025-01-02 11:44:05[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) LIMIT 100
+[34m2025-01-02 11:44:05[39m [32mResult: 100 rows retrieved in 25ms[39m
+[34m2025-01-02 11:44:08[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta LIMIT 100
+[34m2025-01-02 11:44:08[39m [32mResult: 100 rows retrieved in 38ms[39m
+[34m2025-01-02 11:44:18[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:44:18[39m [32mResult: 100 rows retrieved in 45ms[39m
+[34m2025-01-02 11:48:52[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(AVG(v.precio_venta * v.cantidad_venta), 3) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:48:52[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta[39m
+[31mFROM venta v[39m
+[31mORDER BY f...' at line 3[39m
+[34m2025-01-02 11:49:24[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:49:24[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:50:06[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:06[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:50:08[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:09[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:50:11[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:11[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:50:16[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:17[39m [32mResult: 100 rows retrieved in 45ms[39m
+[34m2025-01-02 11:50:20[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:20[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 11:50:23[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:23[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 11:50:38[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:38[39m [32mResult: 100 rows retrieved in 46ms[39m
+[34m2025-01-02 11:50:43[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:50:43[39m [32mResult: 100 rows retrieved in 39ms[39m
+[34m2025-01-02 11:51:32[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:51:32[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 11:51:35[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:51:35[39m [32mResult: 100 rows retrieved in 39ms[39m
+[34m2025-01-02 11:51:37[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:51:37[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 11:52:06[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:52:06[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 11:52:11[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 11:52:11[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 12:00:15[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 12:00:15[39m [32mResult: 100 rows retrieved in 45ms[39m
+[34m2025-01-02 12:01:00[39m Executing: SELECT DISTINCT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 12:01:00[39m [32mResult: 100 rows retrieved in 46ms[39m
+[34m2025-01-02 12:01:18[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 12:01:18[39m [32mResult: 100 rows retrieved in 38ms[39m
+[34m2025-01-02 12:02:00[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,  ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 12:02:00[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 12:02:19[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 12:02:19[39m [32mResult: 100 rows retrieved in 38ms[39m
+[34m2025-01-02 13:19:16[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v  ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:16[39m [32mResult: 100 rows retrieved in 42ms[39m
+[34m2025-01-02 13:19:20[39m Executing: SELECT v.fecha_venta,  ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,  ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:20[39m [32mResult: 100 rows retrieved in 75ms[39m
+[34m2025-01-02 13:19:22[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v  ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:22[39m [32mResult: 100 rows retrieved in 48ms[39m
+[34m2025-01-02 13:19:24[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v  ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:24[39m [32mResult: 100 rows retrieved in 43ms[39m
+[34m2025-01-02 13:19:28[39m Executing: SELECT v.fecha_venta,  ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,  ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:28[39m [32mResult: 100 rows retrieved in 45ms[39m
+[34m2025-01-02 13:19:30[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v  ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:30[39m [32mResult: 100 rows retrieved in 40ms[39m
+[34m2025-01-02 13:19:33[39m Executing: SELECT v.fecha_venta,  ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,  ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas FROM venta v JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas     FROM venta GROUP BY fecha_venta) v2 ON (v.fecha_venta = v2.fecha_venta) ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:33[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 13:19:34[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta FROM venta v  ORDER BY fecha_venta DESC LIMIT 100
+[34m2025-01-02 13:19:34[39m [32mResult: 100 rows retrieved in 41ms[39m
+[34m2025-01-02 13:35:01[39m Executing: SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Total_Venta, SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Total_Ventas_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 13:35:02[39m [32mResult: 100 rows retrieved in 1s[39m
+[34m2025-01-02 13:36:46[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta, SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Total_Ventas_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 13:36:46[39m [32mResult: 100 rows retrieved in 35ms[39m
+[34m2025-01-02 13:38:05[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 2) AS Total_Ventas_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 13:38:05[39m [32mResult: 100 rows retrieved in 60ms[39m
+[34m2025-01-02 13:38:43[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 2) AS Total_Venta_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 13:38:43[39m [32mResult: 100 rows retrieved in 43ms[39m
+[34m2025-01-02 13:39:20[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 13:39:20[39m [32mResult: 100 rows retrieved in 43ms[39m
+[34m2025-01-02 14:00:11[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum FROM venta v LIMIT 100
+[34m2025-01-02 14:00:11[39m [32mResult: 100 rows retrieved in 50ms[39m
+[34m2025-01-02 14:00:14[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 14:00:14[39m [32mResult: 100 rows retrieved in 45ms[39m
+[34m2025-01-02 14:00:18[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum FROM venta v LIMIT 100
+[34m2025-01-02 14:00:18[39m [32mResult: 100 rows retrieved in 50ms[39m
+[34m2025-01-02 14:00:23[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado FROM venta v LIMIT 100
+[34m2025-01-02 14:00:23[39m [32mResult: 100 rows retrieved in 46ms[39m
+[34m2025-01-02 14:00:25[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum FROM venta v LIMIT 100
+[34m2025-01-02 14:00:25[39m [32mResult: 100 rows retrieved in 49ms[39m
+[34m2025-01-02 14:00:30[39m Executing: SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta, ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum FROM venta v LIMIT 100
+[34m2025-01-02 14:00:30[39m [32mResult: 100 rows retrieved in 48ms[39m
+[34m2025-01-02 14:08:38[39m Executing: SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, (v.precio_venta * v.cantidad_venta) AS Venta FROM venta v LIMIT 100
+[34m2025-01-02 14:08:38[39m [32mResult: 100 rows retrieved in 60ms[39m
+[34m2025-01-02 14:15:31[39m Executing: SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, (v.precio_venta * v.cantidad_venta) AS Gasto_Cliente FROM venta v LIMIT 100
+[34m2025-01-02 14:15:31[39m [32mResult: 100 rows retrieved in 42ms[39m
+[34m2025-01-02 14:15:48[39m Executing: SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta),3) AS Gasto_Cliente FROM venta v LIMIT 100
+[34m2025-01-02 14:15:48[39m [32mResult: 100 rows retrieved in 48ms[39m
+[34m2025-01-02 14:15:55[39m Executing: SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v LIMIT 100
+[34m2025-01-02 14:15:55[39m [32mResult: 100 rows retrieved in 51ms[39m
+[34m2025-01-02 14:22:09[39m Executing: SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v LIMIT 100
+[34m2025-01-02 14:22:09[39m [32mResult: 100 rows retrieved in 46ms[39m
+[34m2025-01-02 14:35:13[39m Executing: SELECT * FROM (SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v) WHERE Ranking_Venta < 4 LIMIT 100
+[34m2025-01-02 14:35:13[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE Ranking_Venta < 4 LIMIT 100' at line 9[39m
+[34m2025-01-02 14:35:25[39m Executing: SELECT * FROM (SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v) ventas WHERE Ranking_Venta < 4 LIMIT 100
+[34m2025-01-02 14:35:25[39m [32mResult: 100 rows retrieved in 79ms[39m
+[34m2025-01-02 14:36:24[39m Executing: SELECT * FROM (SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v)  WHERE Ranking_Venta < 4 LIMIT 100
+[34m2025-01-02 14:36:24[39m [31mExecute fail : You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'WHERE Ranking_Venta < 4 LIMIT 100' at line 9[39m
+[34m2025-01-02 14:36:40[39m Executing: SELECT * FROM (SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta, v.fecha_venta, v.ID_cliente, v.precio_venta, v.cantidad_venta, ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente FROM venta v) ventas WHERE Ranking_Venta < 4 LIMIT 100
+[34m2025-01-02 14:36:40[39m [32mResult: 100 rows retrieved in 59ms[39m
 

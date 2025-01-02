@@ -203,3 +203,4 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (ID_venta, fecha_venta, fecha_entrega_venta, ID_canal_vta, ID_cliente, ID_sucursal, ID_empleado, ID_producto, precio_venta, cantidad_venta);
+

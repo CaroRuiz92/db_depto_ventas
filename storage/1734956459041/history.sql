@@ -434,3 +434,361 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (ID_venta, fecha_venta, fecha_entrega_venta, ID_canal_vta, ID_cliente, ID_sucursal, ID_empleado, ID_producto, precio_venta, cantidad_venta);
+/* 2024-12-24 10:53:33 [7 ms] */ 
+SELECT * FROM venta LIMIT 100;
+/* 2024-12-24 18:09:19 [3 ms] */ 
+USE depto_ventas;
+/* 2025-01-02 11:03:55 [62 ms] */ 
+USE depto_ventas;
+/* 2025-01-02 11:04:21 [2500 ms] */ 
+SELECT * FROM venta LIMIT 100;
+/* 2025-01-02 11:07:05 [56 ms] */ 
+SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+FROM venta GROUP BY fecha_venta LIMIT 100;
+/* 2025-01-02 11:17:55 [3 ms] */ 
+SELECT * FROM venta LIMIT 100;
+/* 2025-01-02 11:24:43 [55 ms] */ 
+SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, v2.Promedio_Vtas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:32:16 [25 ms] */ 
+SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+FROM venta GROUP BY fecha_venta LIMIT 100;
+/* 2025-01-02 11:32:20 [24 ms] */ 
+SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, v2.Promedio_Vtas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:35:05 [177 ms] */ 
+SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, ROUND(v2.Promedio_Vtas)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:35:12 [24 ms] */ 
+SELECT v.fecha_venta, v.precio_venta * v.cantidad_venta AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:35:33 [26 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:43:13 [103 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v LIMIT 100;
+/* 2025-01-02 11:43:22 [25 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:43:25 [40 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v LIMIT 100;
+/* 2025-01-02 11:43:58 [36 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta LIMIT 100;
+/* 2025-01-02 11:44:05 [25 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta) LIMIT 100;
+/* 2025-01-02 11:44:08 [38 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta LIMIT 100;
+/* 2025-01-02 11:44:18 [45 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:49:24 [40 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:06 [40 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:09 [40 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:11 [40 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:17 [45 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:20 [41 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:23 [41 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:38 [46 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:50:43 [39 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:51:32 [41 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:51:35 [39 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:51:37 [40 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3)
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:52:06 [41 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 11:52:11 [41 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 12:01:00 [46 ms] */ 
+SELECT DISTINCT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 12:01:18 [38 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 12:02:00 [40 ms] */ 
+SELECT v.fecha_venta, ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, 
+ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 12:02:19 [38 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:16 [42 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:20 [75 ms] */ 
+SELECT v.fecha_venta, 
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, 
+ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:22 [48 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:28 [45 ms] */ 
+SELECT v.fecha_venta, 
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, 
+ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:30 [40 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:33 [41 ms] */ 
+SELECT v.fecha_venta, 
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, 
+ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
+FROM venta v
+JOIN (SELECT fecha_venta, AVG(precio_venta * cantidad_venta) AS Promedio_Vtas
+    FROM venta GROUP BY fecha_venta) v2
+ON (v.fecha_venta = v2.fecha_venta)
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:19:34 [41 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total,
+AVG(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta) AS Promedio_Venta
+FROM venta v
+
+ORDER BY fecha_venta DESC LIMIT 100;
+/* 2025-01-02 13:35:02 [1039 ms] */ 
+SELECT v.fecha_venta,
+v.precio_venta * v.cantidad_venta AS Total_Venta,
+SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Total_Ventas_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 13:36:46 [35 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta,
+SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Total_Ventas_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 13:38:05 [60 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 2) AS Total_Ventas_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 13:38:43 [43 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 2) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 2) AS Total_Venta_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 13:39:20 [43 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:00:11 [50 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:00:14 [45 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:00:18 [50 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:00:23 [46 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), 3) AS Total_Venta_Acumulado
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:00:25 [49 ms] */ 
+SELECT v.fecha_venta,
+ROUND(v.precio_venta * v.cantidad_venta, 3) AS Total_Venta,
+ROUND(SUM(v.precio_venta * v.cantidad_venta) OVER (PARTITION BY v.fecha_venta ORDER BY v.ID_venta), 3) AS Total_Venta_Acum
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:08:38 [60 ms] */ 
+SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+(v.precio_venta * v.cantidad_venta) AS Venta
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:15:31 [42 ms] */ 
+SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+(v.precio_venta * v.cantidad_venta) AS Gasto_Cliente
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:15:48 [48 ms] */ 
+SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+ROUND((v.precio_venta * v.cantidad_venta),3) AS Gasto_Cliente
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:15:55 [51 ms] */ 
+SELECT RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:22:09 [46 ms] */ 
+SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente
+FROM venta v LIMIT 100;
+/* 2025-01-02 14:35:25 [79 ms] */ 
+SELECT *
+FROM (SELECT DENSE_RANK() OVER (PARTITION BY v.fecha_venta ORDER BY v.precio_venta * v.cantidad_venta DESC) AS Ranking_Venta,
+v.fecha_venta,
+v.ID_cliente,
+v.precio_venta,
+v.cantidad_venta,
+ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente
+FROM venta v) ventas
+WHERE Ranking_Venta < 4 LIMIT 100;
