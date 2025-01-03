@@ -1,3 +1,6 @@
+-- Active: 1734956459041@@127.0.0.1@3306@depto_ventas
+USE depto_ventas;
+
 SELECT v.fecha_venta, 
 ROUND(v.precio_venta * v.cantidad_venta, 3) AS Venta_Total, 
 ROUND(v2.Promedio_Vtas, 3) AS Promedio_Ventas
