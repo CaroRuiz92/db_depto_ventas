@@ -792,3 +792,58 @@ v.cantidad_venta,
 ROUND((v.precio_venta * v.cantidad_venta), 2) AS Gasto_Cliente
 FROM venta v) ventas
 WHERE Ranking_Venta < 4 LIMIT 100;
+/* 2025-01-02 19:07:06 [10 ms] */ 
+SELECT ROW_NUMBER() OVER (PARTITION BY c.localidad_cliente) AS row_ID,
+c.nombre_apellido_cliente,
+c.domicilio_cliente,
+c.edad_cliente
+FROM clientes c LIMIT 100;
+/* 2025-01-02 19:28:00 [20 ms] */ 
+SELECT ROW_NUMBER() OVER (PARTITION BY c.localidad_cliente) AS row_ID,
+FIRST_VALUE(nombre_apellido_cliente) OVER (PARTITION BY c.localidad_cliente) AS primer_nombre,
+LAST_VALUE(nombre_apellido_cliente) OVER (PARTITION BY c.localidad_cliente) AS ultimo_nombre,
+c.nombre_apellido_cliente,
+c.domicilio_cliente,
+c.edad_cliente
+FROM clientes c LIMIT 100;
+/* 2025-01-02 21:31:27 [98 ms] */ 
+SELECT ROW_NUMBER() OVER (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta) AS Operacion,
+v.ID_cliente,
+LAG(v.fecha_venta) OVER (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta) AS Fecha_anterior,
+v.fecha_venta,
+LEAD(v.fecha_venta) OVER (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta) AS Fecha_siguiente,
+DATEDIFF(LEAD(v.fecha_venta) OVER(PARTITION BY v.ID_cliente ORDER BY v.fecha_venta), v.fecha_venta) AS Diferencia_ste_Vta,
+(v.precio_venta * v.cantidad_venta) AS Venta_monto
+FROM venta v LIMIT 100;
+/* 2025-01-02 22:31:16 [59 ms] */ 
+SELECT ID_cliente,
+ROUND(AVG(Diferencia_Ste_Venta), 2) AS Promedio_Dias_entre_Vtas
+FROM (
+    SELECT v.ID_cliente,
+DATEDIFF(LEAD(v.fecha_venta) OVER w, v.fecha_venta) AS Diferencia_Ste_Venta
+FROM venta v
+ WINDOW w AS (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta)) vta
+GROUP BY ID_cliente LIMIT 100;
+/* 2025-01-02 22:35:59 [55 ms] */ 
+SELECT ID_cliente,
+ROUND(AVG(Diferencia_Ste_Venta), 2) AS Promedio_Dias_entre_Vtas
+FROM (
+    SELECT v.ID_cliente,
+DATEDIFF(LEAD(v.fecha_venta) OVER w, v.fecha_venta) AS Diferencia_Ste_Venta
+FROM venta v
+WINDOW w AS (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta)) vta
+GROUP BY ID_cliente LIMIT 100;
+/* 2025-01-02 22:44:08 [40 ms] */ 
+SELECT v.ID_cliente,
+DATEDIFF(LEAD(v.fecha_venta) OVER w, v.fecha_venta) AS Diferencia_Ste_Venta
+FROM venta v
+WINDOW w AS (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta) LIMIT 100;
+/* 2025-01-02 22:44:26 [69 ms] */ 
+SELECT ID_cliente,
+ROUND(AVG(Diferencia_Ste_Venta), 2) AS Promedio_Dias_entre_Vtas
+FROM (
+    SELECT v.ID_cliente,
+DATEDIFF(LEAD(v.fecha_venta) OVER w, v.fecha_venta) AS Diferencia_Ste_Venta
+FROM venta v
+WINDOW w AS (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta)) vta
+GROUP BY ID_cliente LIMIT 100;
