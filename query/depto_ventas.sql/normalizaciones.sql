@@ -52,3 +52,39 @@ CREATE TABLE localidades (
     localidad VARCHAR(100) NOT NULL,
     provincia VARCHAR(100) NOT NULL
 );
+
+-- Se insertan valores en crudo en la tabla localidades
+INSERT INTO localidades (localidad, provincia)
+SELECT DISTINCT localidad_cliente AS localidad, provincia_cliente AS provincia
+FROM clientes
+UNION
+SELECT DISTINCT ciudad_proveedor AS localidad, provincia_proveedor AS provincia
+FROM proveedores
+UNION
+SELECT DISTINCT localidad_sucursal AS localidad, provincia_sucursal AS provincia
+FROM sucursales;
+
+-- Se agregan columnas para unir localidades con clientes, sucursales y proveedores
+ALTER TABLE clientes ADD COLUMN id_localidad INT;
+ALTER TABLE sucursales ADD COLUMN id_localidad INT;
+ALTER TABLE proveedores ADD COLUMN id_localidad INT;
+
+UPDATE clientes c
+JOIN localidades l
+ON c.localidad_cliente = l.localidad AND
+c.provincia_cliente = l.provincia
+SET c.id_localidad = l.ID_localidad;
+
+UPDATE sucursales s
+JOIN localidades l
+ON s.localidad_sucursal = l.localidad AND
+s.provincia_sucursal = l.provincia
+SET s.id_localidad = l.ID_localidad;
+
+UPDATE proveedores p
+JOIN localidades l
+ON p.ciudad_proveedor = l.localidad AND
+p.provincia_proveedor = l.provincia
+SET p.id_localidad = l.ID_localidad;
+
+-- Queda la corrección de datos en localidades según se disponga desde otro departamentos
