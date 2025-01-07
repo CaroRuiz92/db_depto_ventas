@@ -32,7 +32,10 @@ DROP COLUMN y_cliente,
 DROP COLUMN fecha_alta_cliente,
 DROP COLUMN usuario_alta_cliente,
 DROP COLUMN usuario_ultima_modific_cliente,
-DROP col10_cliente;
+DROP COLUMN col10_cliente;
+
+ALTER TABLE clientes
+DROP COLUMN fecha_ultima_modific_cliente;
 
 -- Se discretizan las edades de los clientes
 ALTER TABLE clientes
@@ -88,3 +91,62 @@ p.provincia_proveedor = l.provincia
 SET p.id_localidad = l.ID_localidad;
 
 -- Queda la corrección de datos en localidades según se disponga desde otro departamentos
+
+-- Eliminación de columnas innecesarias en tablas clientes, proveedores y sucursales
+
+ALTER TABLE clientes
+DROP COLUMN localidad_cliente,
+DROP COLUMN provincia_cliente,
+DROP COLUMN marca_baja_cliente;
+
+ALTER TABLE proveedores
+DROP COLUMN ciudad_proveedor,
+DROP COLUMN pais_proveed,
+DROP COLUMN provincia_proveedor,
+DROP COLUMN departamento_proveedor;
+
+ALTER TABLE sucursales
+DROP COLUMN localidad_sucursal,
+DROP COLUMN provincia_sucursal;
+
+-- Se indexan otras tablas con conectadas entre sí
+
+ALTER TABLE venta
+ADD COLUMN ID_fecha_venta INT;
+
+ALTER TABLE venta
+ADD CONSTRAINT fk_fecha
+FOREIGN KEY (ID_fecha_venta) REFERENCES calendario(ID_fecha);
+
+UPDATE venta v
+JOIN calendario c
+ON v.fecha_venta = c.fecha
+SET v.ID_fecha_venta = c.ID_fecha; 
+
+ALTER TABLE venta
+DROP COLUMN fecha_venta;
+
+ALTER TABLE venta
+ADD COLUMN ID_fecha_entrega_venta INT;
+
+ALTER TABLE venta
+ADD CONSTRAINT fk_fecha_entrega
+FOREIGN KEY (ID_fecha_entrega_venta) REFERENCES calendario(ID_fecha);
+
+UPDATE venta v
+JOIN calendario c
+ON v.fecha_entrega_venta = c.fecha
+SET v.ID_fecha_entrega_venta = c.ID_fecha; 
+
+ALTER TABLE venta
+DROP COLUMN fecha_entrega_venta;
+
+-- Venta ya está preparada para ser una tabla fact dentro de un modelo estrella
+-- Se distingue Venta como stg_venta previo a la construcción de la fact
+RENAME TABLE venta TO stg_venta;
+
+-- Se hace lo mismo para las primeras dimensiones del futuro modelo estrella
+
+RENAME TABLE clientes TO stg_clientes;
+RENAME TABLE productos TO stg_productos;
+RENAME TABLE empleados TO stg_empleados;
