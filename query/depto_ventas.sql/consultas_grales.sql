@@ -86,3 +86,56 @@ DATEDIFF(LEAD(v.fecha_venta) OVER w, v.fecha_venta) AS Diferencia_Ste_Venta
 FROM venta v
 WINDOW w AS (PARTITION BY v.ID_cliente ORDER BY v.fecha_venta)) vta
 GROUP BY ID_cliente;
+
+-- Productos, precios y promedio de precios en general
+SELECT ID_producto, concepto_producto, precio_producto, 
+(SELECT ROUND(AVG(precio_producto), 2) FROM stg_productos) AS Prom_Precio
+FROM stg_productos
+WHERE concepto_producto NOT LIKE 'Producto_'
+ORDER BY precio_producto DESC;
+
+-- Detalle monto venta por producto
+SELECT p.ID_producto, p.concepto_producto, p.precio_producto, v.promedio_venta
+FROM stg_productos p
+INNER JOIN (
+    SELECT ID_producto, ROUND(AVG(precio_venta * cantidad_venta), 2) AS promedio_venta
+    FROM stg_venta
+    GROUP BY ID_producto) v
+ON p.ID_producto = v.ID_producto;
+
+-- Productos cuyo precio es mayor al promedio
+SELECT ID_producto, concepto_producto, precio_producto
+FROM stg_productos
+WHERE precio_producto > (SELECT AVG(precio_producto) 
+                        FROM stg_productos 
+                        WHERE concepto_producto NOT LIKE 'Producto_');
+
+-- Producto más barato por categoría
+SELECT p1.ID_producto, p1.concepto_producto, p1.tipo_producto, p1.precio_producto
+FROM stg_productos p1
+WHERE precio_producto = (SELECT MIN(precio_producto)
+                        FROM stg_productos p2
+                        WHERE p1.ID_producto = p2.ID_producto)
+AND concepto_producto NOT LIKE 'Producto_'
+ORDER BY concepto_producto;
+
+
+-- Clientes que hayan comprado cierto producto
+
+SELECT ID_cliente, nombre_apellido_cliente
+FROM stg_clientes
+WHERE ID_cliente IN (SELECT v.ID_cliente
+                    FROM stg_venta v
+                    WHERE v.ID_producto = 42737
+                    );
+
+-- Vendedores implicados en la venta de cierto producto
+
+SELECT ID_empleado, nombre_empleado, apellido_empleado, sucursal_empleado
+FROM stg_empleados e
+WHERE EXISTS (
+    SELECT ID_empleado 
+    FROM stg_venta v
+    WHERE v.ID_producto = 42737 AND
+    e.ID_empleado = v.ID_empleado
+);
