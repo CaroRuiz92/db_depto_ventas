@@ -139,3 +139,43 @@ WHERE EXISTS (
     WHERE v.ID_producto = 42737 AND
     e.ID_empleado = v.ID_empleado
 );
+
+-- Función que dado un código de producto 
+-- devuelve el total de ventas para dicho producto 
+-- luego, mediante una consulta, trae código y total de ventas
+DELIMITER $$
+CREATE FUNCTION Total_Vtas(cod_prod INT)
+RETURNS DECIMAL(10,2) DETERMINISTIC
+BEGIN
+    DECLARE total_ventas DECIMAL(10,2) DEFAULT 0;
+
+    SELECT IFNULL(SUM(precio_venta * cantidad_venta), 0)
+    INTO total_ventas
+    FROM stg_venta
+    WHERE ID_producto = cod_prod;
+
+    RETURN total_ventas;
+END $$
+DELIMITER ;
+
+SELECT Total_Vtas(42850);
+
+-- Función que dado un código devuelve 
+--la cantidad de productos vendidos o cero si no se ha vendido.
+
+DELIMITER $$
+CREATE FUNCTION Cant_Vendido(cod_prod INT)
+RETURNS DECIMAL(10,2) DETERMINISTIC
+BEGIN
+    DECLARE cant_vendido DECIMAL(10,2) DEFAULT 0;
+
+    SELECT SUM(cantidad_venta)
+    INTO cant_vendido
+    FROM stg_venta
+    WHERE ID_producto = cod_prod;
+
+    RETURN cant_vendido;
+END $$
+DELIMITER;
+
+SELECT Cant_Vendido(42850);
