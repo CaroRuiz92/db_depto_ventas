@@ -150,3 +150,53 @@ RENAME TABLE venta TO stg_venta;
 RENAME TABLE clientes TO stg_clientes;
 RENAME TABLE productos TO stg_productos;
 RENAME TABLE empleados TO stg_empleados;
+
+-- Se cambian nombres en la tabla Calendario que están en inglés
+
+UPDATE calendario
+SET dia_nombre = CASE 
+    WHEN dia_nombre = 'Monday' THEN 'Lunes'
+    WHEN dia_nombre = 'Tuesday' THEN 'Martes'
+    WHEN dia_nombre = 'Wednesday' THEN 'Miércoles'
+    WHEN dia_nombre = 'Thursday' THEN 'Jueves'
+    WHEN dia_nombre = 'Friday' THEN 'Viernes'
+    WHEN dia_nombre = 'Saturday' THEN 'Sábado'
+    WHEN dia_nombre = 'Sunday' THEN 'Domingo'
+END
+WHERE dia_nombre IN ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+
+-- Se corrigen retornos \r en el campo mes_nombre
+UPDATE calendario
+SET mes_nombre = TRIM(TRAILING CHAR(13) FROM mes_nombre);
+UPDATE calendario
+SET mes_nombre = CASE 
+    WHEN TRIM(mes_nombre) = 'January' THEN 'Enero'
+    WHEN TRIM(mes_nombre) = 'February' THEN 'Febrero'
+    WHEN TRIM(mes_nombre) = 'March' THEN 'Marzo'
+    WHEN TRIM(mes_nombre) = 'April' THEN 'Abril'
+    WHEN TRIM(mes_nombre) = 'May' THEN 'Mayo'
+    WHEN TRIM(mes_nombre) = 'June' THEN 'Junio'
+    WHEN TRIM(mes_nombre) = 'July' THEN 'Julio'
+    WHEN TRIM(mes_nombre) = 'August' THEN 'Agosto'
+    WHEN TRIM(mes_nombre) = 'September' THEN 'Septiembre'
+    WHEN TRIM(mes_nombre) = 'October' THEN 'Octubre'
+    WHEN TRIM(mes_nombre) = 'November' THEN 'Noviembre'
+    WHEN TRIM(mes_nombre) = 'December' THEN 'Diciembre'
+END
+WHERE TRIM(mes_nombre) IN ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+
+-- Se ajustan los nombres de los canales de venta
+UPDATE canal_venta
+SET descrip_canal_vta = 'Telefónica'
+WHERE ID_canal_vta = 1;
+
+UPDATE canal_venta
+SET descrip_canal_vta = 'Online'
+WHERE ID_canal_vta = 2;
+
+-- Se actualizan los datos de empleados relacionados a sucursales
+
+UPDATE stg_empleados
+INNER JOIN sucursales
+ON stg_empleados.sucursal_empleado = sucursales.nombre_sucursal
+SET stg_empleados.sucursal_empleado = sucursales.ID_sucursales;
