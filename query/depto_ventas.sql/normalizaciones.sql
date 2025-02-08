@@ -109,39 +109,6 @@ ALTER TABLE sucursales
 DROP COLUMN localidad_sucursal,
 DROP COLUMN provincia_sucursal;
 
--- Se indexan otras tablas con conectadas entre sí
-
-ALTER TABLE venta
-ADD COLUMN ID_fecha_venta INT;
-
-ALTER TABLE venta
-ADD CONSTRAINT fk_fecha
-FOREIGN KEY (ID_fecha_venta) REFERENCES calendario(ID_fecha);
-
-UPDATE venta v
-JOIN calendario c
-ON v.fecha_venta = c.fecha
-SET v.ID_fecha_venta = c.ID_fecha; 
-
-ALTER TABLE venta
-DROP COLUMN fecha_venta;
-
-ALTER TABLE venta
-ADD COLUMN ID_fecha_entrega_venta INT;
-
-ALTER TABLE venta
-ADD CONSTRAINT fk_fecha_entrega
-FOREIGN KEY (ID_fecha_entrega_venta) REFERENCES calendario(ID_fecha);
-
-UPDATE venta v
-JOIN calendario c
-ON v.fecha_entrega_venta = c.fecha
-SET v.ID_fecha_entrega_venta = c.ID_fecha; 
-
-ALTER TABLE venta
-DROP COLUMN fecha_entrega_venta;
-
--- Venta ya está preparada para ser una tabla fact dentro de un modelo estrella
 -- Se distingue Venta como stg_venta previo a la construcción de la fact
 RENAME TABLE venta TO stg_venta;
 
@@ -200,3 +167,4 @@ UPDATE stg_empleados
 INNER JOIN sucursales
 ON stg_empleados.sucursal_empleado = sucursales.nombre_sucursal
 SET stg_empleados.sucursal_empleado = sucursales.ID_sucursales;
+

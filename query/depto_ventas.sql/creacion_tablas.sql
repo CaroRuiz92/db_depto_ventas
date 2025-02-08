@@ -189,12 +189,7 @@ CREATE TABLE venta (
     ID_empleado INT,
     ID_producto INT,
     precio_venta FLOAT,
-    cantidad_venta INT,
-    FOREIGN KEY (ID_canal_vta) REFERENCES canal_venta(ID_canal_vta),
-    FOREIGN KEY (ID_cliente) REFERENCES clientes(ID_cliente),
-    FOREIGN KEY (ID_sucursal) REFERENCES sucursales(ID_sucursales),
-    FOREIGN KEY (ID_empleado) REFERENCES empleados(ID_empleado),
-    FOREIGN KEY (ID_producto) REFERENCES productos(ID_producto)
+    cantidad_venta INT
 );
 
 LOAD DATA LOCAL INFILE 'C:/Users/icrui/Documents/DS-ML/pract_DE/Recursos/Venta.csv'
